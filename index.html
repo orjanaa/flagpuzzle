@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>American or British?</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .levers {
+            display: flex;
+            margin: 0px 0px 40px 120px;
+        }
+
+        .lever {
+            width: 60px;
+            height: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 5px 20px; /* Add spacing between levers */
+            cursor: pointer;
+        }
+
+        .lever img {
+            width: 100%;
+            height: auto;
+        }
+
+        .lever.flipped img.down {
+            display: none;
+        }
+
+        .lever:not(.flipped) img.up {
+            display: none;
+        }
+        button {
+            font-size: 22px;
+            margin: 30px 0px 0px 80px; /* Adjusted margin to add spacing */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img class="usflag" src="us_flag.png" alt="American flag">
+
+        <div class="levers">
+            <!-- Five levers -->
+            <div class="lever" id="lever1" onclick="toggleLever(1)">
+                <img class="up" src="lever_up.png" alt="Lever Up">
+                <img class="down" src="lever_down.png" alt="Lever Down">
+            </div>
+            <div class="lever" id="lever2" onclick="toggleLever(2)">
+                <img class="up" src="lever_up.png" alt="Lever Up">
+                <img class="down" src="lever_down.png" alt="Lever Down">
+            </div>
+            <div class="lever" id="lever3" onclick="toggleLever(3)">
+                <img class="up" src="lever_up.png" alt="Lever Up">
+                <img class="down" src="lever_down.png" alt="Lever Down">
+            </div>
+            <div class="lever" id="lever4" onclick="toggleLever(4)">
+                <img class="up" src="lever_up.png" alt="Lever Up">
+                <img class="down" src="lever_down.png" alt="Lever Down">
+            </div>
+            <div class="lever" id="lever5" onclick="toggleLever(5)">
+                <img class="up" src="lever_up.png" alt="Lever Up">
+                <img class="down" src="lever_down.png" alt="Lever Down">
+            </div>
+
+            <button onclick="checkCombination()">Check!</button>
+
+        </div>
+        <img class="ukflag" src="uk_flag.png" alt="UK flag">
+    </div>
+
+    <script>
+        // Add your JavaScript code here
+        function toggleLever(leverNumber) {
+            var lever = document.getElementById('lever' + leverNumber);
+            lever.classList.toggle('flipped');
+        }
+
+        function checkCombination() {
+            var levers = document.querySelectorAll('.lever');
+            var correctCombination = '10101'; // Change this to desired correct combination
+
+            var currentCombination = '';
+            levers.forEach(function(lever) {
+                currentCombination += lever.classList.contains('flipped') ? '1' : '0';
+            });
+            if (currentCombination === correctCombination) {
+                alert('Congratulations! You win!');
+            } else {
+                alert('Sorry, try again.');
+            }
+        }
+    </script>
+</body>
+</html>
+
