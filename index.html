@@ -20,6 +20,7 @@
         .levers {
             display: flex;
             margin: 0px 0px 40px 120px;
+            position: relative;
         }
 
         .lever {
@@ -46,7 +47,33 @@
         }
         button {
             font-size: 22px;
-            margin: 30px 0px 0px 80px; /* Adjusted margin to add spacing */
+            margin: 30px 0px 0px 80px;
+        }
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.2); /* Dim the rest of the page a bit, optional */
+        }
+
+        /* Modal content */
+        .modal-content {
+            background-color: #fefefe;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin: 16% auto; /* xx% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 500px; /* Width of the confirmation box*/
+            font-size: 28px;
+            border-radius: 20px; /* Rounded corners */
+            text-align: center; /* Center text */
         }
     </style>
 </head>
@@ -83,8 +110,13 @@
         <img class="ukflag" src="uk_flag.png" alt="UK flag">
     </div>
 
+    <div id="resultModal" class="modal">
+        <div id="modalContent" class="modal-content">
+            <p id="modalText"></p>
+        </div>
+    </div>
     <script>
-        // Add your JavaScript code here
+
         function toggleLever(leverNumber) {
             var lever = document.getElementById('lever' + leverNumber);
             lever.classList.toggle('flipped');
@@ -98,11 +130,48 @@
             levers.forEach(function(lever) {
                 currentCombination += lever.classList.contains('flipped') ? '1' : '0';
             });
+
             if (currentCombination === correctCombination) {
-                alert('Congratulations! You win!');
+                showResultModal('Correct!', 'green');
             } else {
-                alert('Sorry, try again.');
+                showResultModal('Sorry, incorrect combination.', 'red');
+
+                // Reset the state of the levers
+                levers.forEach(function(lever) {
+                    lever.classList.remove('flipped');
+                })
             }
+        }
+
+        function showResultModal(message, color) {
+            var modal = document.getElementById('resultModal');
+            var modalContent = document.getElementById('modalContent');
+            var modalText = document.getElementById('modalText');
+
+            modalText.innerText = message;
+            modal.style.display = 'block';
+
+            if (color == 'green'){
+                modalContent.style.backgroundColor = '#22bb22';
+            }
+            else if (color == 'red'){
+                modalContent.style.backgroundColor = '#dd2222';
+            }
+            else {
+                modalContent.style.backgroundColor = '#fefefe';
+            }
+        }
+
+        function closeModal() {
+            var modal = document.getElementById('resultModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Close the modal when clicking outside of it
+        window.onclick = function(event) {
+            closeModal();
         }
     </script>
 </body>
